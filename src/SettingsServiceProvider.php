@@ -47,10 +47,15 @@ class SettingsServiceProvider extends ServiceProvider
             }
         }
         // publish the migrations and seeds
-        $this->publishes([__DIR__.'/database/migrations/' => database_path('migrations')], 'migrations');
+        $this->publishes([
+            __DIR__.'/database/migrations/create_settings_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_settings_table.php'),
+        ], 'migrations');
 
         // publish translation files
         $this->publishes([__DIR__.'/resources/lang' => resource_path('lang/vendor/backpack')], 'lang');
+
+        // publish setting files
+        $this->publishes([__DIR__.'/config' => config_path()], 'config');
     }
 
     /**

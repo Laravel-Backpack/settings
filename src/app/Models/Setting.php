@@ -10,8 +10,14 @@ class Setting extends Model
 {
     use CrudTrait;
 
-    protected $table = 'settings';
     protected $fillable = ['value'];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->table = config('backpack.settings.table_name', 'settings');
+    }
 
     /**
      * Grab a setting value from the database.
@@ -40,7 +46,7 @@ class Setting extends Model
      */
     public static function set($key, $value = null)
     {
-        $prefixed_key = 'settings.'.$key;
+        $prefixed_key = config('backpack.settings.table_name', 'settings').'.'.$key;
         $setting = new self();
         $entry = $setting->where('key', $key)->firstOrFail();
 

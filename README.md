@@ -32,6 +32,35 @@ php artisan backpack:add-sidebar-content "<li class='nav-item'><a class='nav-lin
 php artisan db:seed --class="Backpack\Settings\database\seeds\SettingsTableSeeder"
 ```
 
+### Config File - [optional] You may change according to your needs.
+```
+<?php
+
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Table Name
+    |--------------------------------------------------------------------------
+    |
+    | Database Settings Table Name
+    |
+    */
+    'table_name' => 'settings',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Route Name
+    |--------------------------------------------------------------------------
+    |
+    | Routing Name
+    |
+    */
+    'route_name' => 'setting',
+];
+
+```
+
 ## Usage
 
 ### End user

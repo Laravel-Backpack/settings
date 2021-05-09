@@ -12,7 +12,7 @@ class CreateSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('settings', function (Blueprint $table) {
+        Schema::create(config('backpack.settings.table_name', 'settings'), function (Blueprint $table) {
             $table->increments('id');
             $table->string('key')->unique();
             $table->string('name');
@@ -31,6 +31,6 @@ class CreateSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('settings');
+        Schema::drop(config('backpack.settings.table_name', 'settings'));
     }
 }

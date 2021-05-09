@@ -55,7 +55,7 @@ class SettingsTableSeeder extends Seeder
     public function run()
     {
         foreach ($this->settings as $index => $setting) {
-            $result = DB::table('settings')->insert($setting);
+            $result = DB::table(config('backpack.settings.table_name', 'settings'))->insert($setting);
 
             if (!$result) {
                 $this->command->info("Insert failed at record $index.");
