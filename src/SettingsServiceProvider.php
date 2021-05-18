@@ -5,6 +5,7 @@ namespace Backpack\Settings;
 use Backpack\Settings\app\Models\Setting as Setting;
 use Config;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Route;
@@ -36,9 +37,15 @@ class SettingsServiceProvider extends ServiceProvider
         $this->setupRoutes($this->app->router);
 
         // only use the Settings package if the Settings table is present in the database
-        if (!\App::runningInConsole() && count(Schema::getColumnListing('settings'))) {
-            // get all settings from the database
-            $settings = Setting::all();
+        $tableExists = Cache::remember('backpack_settings_table_exists', config('backpack.base.cache_time', 60), function () {
+            return count(Schema::getColumnListing('settings'));
+        });
+
+        if (!\App::runningInConsole() && $tableExists) {
+            // get all settings from the database if they're not in the database.
+            $settings = Cache::remember('backpack_settings_cache', config('backpack.base.cache_time', 60), function () {
+                return Setting::all();
+            });
 
             // bind all settings to the Laravel config, so you can call them like
             // Config::get('settings.contact_email')
